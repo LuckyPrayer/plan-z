@@ -40,6 +40,33 @@ def get_logs_dir() -> Path:
     return logs_dir
 
 
+def load_hosts(config_dir: Path) -> None:
+    """Load host configurations from hosts.yaml.
+    
+    Args:
+        config_dir: Configuration directory containing hosts.yaml.
+    """
+    import yaml
+    from planz.models import Host
+    from planz.remote.base import RemoteExecutorFactory
+    
+    hosts_file = config_dir / "hosts.yaml"
+    if not hosts_file.exists():
+        return
+    
+    try:
+        with open(hosts_file, "r") as f:
+            data = yaml.safe_load(f)
+        
+        if data and "hosts" in data:
+            for name, host_data in data["hosts"].items():
+                host_data["name"] = name
+                host = Host.from_dict(host_data)
+                RemoteExecutorFactory.register_host(host)
+    except Exception as e:
+        error_console.print(f"[yellow]Warning: Failed to load hosts.yaml: {e}[/yellow]")
+
+
 class OutputFormatter:
     """Handles output formatting for CLI."""
 
@@ -144,6 +171,9 @@ def cli(ctx: click.Context, json_output: bool, config_dir: Optional[str]) -> Non
     # Ensure directories exist
     ctx.obj["jobs_dir"].mkdir(parents=True, exist_ok=True)
     ctx.obj["logs_dir"].mkdir(parents=True, exist_ok=True)
+
+    # Load host configurations
+    load_hosts(ctx.obj["config_dir"])
 
     ctx.obj["job_manager"] = JobManager(ctx.obj["jobs_dir"])
     ctx.obj["cron_controller"] = CronController()
