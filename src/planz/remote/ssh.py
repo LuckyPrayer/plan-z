@@ -132,6 +132,50 @@ class SSHExecutor(RemoteExecutor):
 
         return self._platform
 
+    def _detect_platform_internal(self) -> None:
+        """Internal platform detection without using _build_command to avoid recursion."""
+        if self._platform:
+            return
+
+        if not self.is_connected():
+            self.connect()
+
+        try:
+            # Try Unix detection first (uname)
+            stdin, stdout, stderr = self._client.exec_command("uname -s", timeout=10)
+            exit_code = stdout.channel.recv_exit_status()
+            
+            if exit_code == 0:
+                uname = stdout.read().decode("utf-8", errors="replace").strip().lower()
+                if "linux" in uname:
+                    self._platform = HostPlatform.LINUX
+                elif "darwin" in uname:
+                    self._platform = HostPlatform.MACOS
+                else:
+                    self._platform = HostPlatform.LINUX  # Assume Linux for other Unix
+                return
+
+            # Try Windows detection (ver command)
+            stdin, stdout, stderr = self._client.exec_command("ver", timeout=10)
+            exit_code = stdout.channel.recv_exit_status()
+            
+            if exit_code == 0:
+                ver_output = stdout.read().decode("utf-8", errors="replace").lower()
+                if "windows" in ver_output:
+                    self._platform = HostPlatform.WINDOWS
+                    return
+
+            # Try another Windows check
+            stdin, stdout, stderr = self._client.exec_command("echo %OS%", timeout=10)
+            output = stdout.read().decode("utf-8", errors="replace").lower()
+            if "windows" in output:
+                self._platform = HostPlatform.WINDOWS
+            else:
+                self._platform = HostPlatform.UNKNOWN
+                
+        except Exception:
+            self._platform = HostPlatform.UNKNOWN
+
     def execute(
         self,
         command: str,
@@ -199,12 +243,16 @@ class SSHExecutor(RemoteExecutor):
         command: str,
         env: Optional[dict[str, str]] = None,
         workdir: Optional[str] = None,
+        skip_platform_detection: bool = False,
     ) -> str:
         """Build the full command with environment and workdir.
 
         Handles differences between Unix and Windows shells.
         """
-        # Detect platform if we can (without recursion)
+        # Detect platform if not already known (skip during detection itself)
+        if not skip_platform_detection and self._platform is None:
+            self._detect_platform_internal()
+        
         is_windows = self._platform == HostPlatform.WINDOWS
 
         parts = []
