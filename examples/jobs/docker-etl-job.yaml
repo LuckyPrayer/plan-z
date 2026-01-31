@@ -1,0 +1,29 @@
+# Example: Docker-based job
+# This job runs inside a Docker container for consistent execution
+
+name: docker-etl-job
+schedule: "0 * * * *"
+
+# The command runs inside the container
+command: python /app/etl/run_pipeline.py
+
+# Docker execution mode
+execution_mode: docker
+docker_image: mycompany/etl-runner:latest
+docker_volumes:
+  - /data/input:/app/input:ro
+  - /data/output:/app/output
+docker_network: etl-network
+
+timeout: 1800
+env:
+  PYTHONPATH: /app
+  DB_HOST: postgres.internal
+  LOG_LEVEL: INFO
+
+tags:
+  - etl
+  - docker
+  - data
+
+enabled: true

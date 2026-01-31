@@ -1,0 +1,15 @@
+# Example: Hourly ETL job
+name: etl-hourly
+schedule: "0 * * * *"
+command: python /opt/etl/run_pipeline.py
+timeout: 1800
+workdir: /opt/etl
+env:
+  PYTHONPATH: /opt/etl
+  DB_HOST: localhost
+tags:
+  - etl
+  - data
+enabled: true
+retry_count: 2
+retry_delay: 300

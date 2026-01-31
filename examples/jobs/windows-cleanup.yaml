@@ -1,0 +1,28 @@
+# Example: Windows Task Scheduler job
+# This job is specifically designed for Windows hosts
+
+name: windows-cleanup
+schedule: "0 3 * * 0"  # Sundays at 3 AM
+
+# PowerShell command for Windows
+command: |
+  Get-ChildItem -Path C:\Temp -Recurse |
+  Where-Object { $_.LastWriteTime -lt (Get-Date).AddDays(-7) } |
+  Remove-Item -Force -Recurse
+
+# Target a specific Windows host
+host: windows-server-01
+
+timeout: 1800
+workdir: C:\Scripts
+
+env:
+  LOG_PATH: C:\Logs\cleanup.log
+
+tags:
+  - cleanup
+  - windows
+  - maintenance
+
+notify:
+  on_failure: email

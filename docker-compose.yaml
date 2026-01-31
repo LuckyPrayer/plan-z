@@ -1,0 +1,44 @@
+# Docker Compose configuration for Plan-Z
+# Use for local development or running the scheduler as a service
+
+services:
+  # Plan-Z scheduler service
+  planz:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: planz-scheduler
+    volumes:
+      # Persist configuration and logs
+      - planz-config:/home/planz/.planz
+      # Mount Docker socket to manage containers on host
+      - /var/run/docker.sock:/var/run/docker.sock
+    group_add:
+      - ${DOCKER_GID:-999}  # Match host's docker group GID
+    environment:
+      - PLANZ_LOG_LEVEL=INFO
+    restart: unless-stopped
+    command: ["planz", "status"]  # Or run specific commands
+
+  # Example: Run a job in a separate container
+  planz-runner:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: planz-runner
+    volumes:
+      - planz-config:/home/planz/.planz:ro
+    profiles:
+      - runner
+    command: ["run", "my-job"]
+
+volumes:
+  planz-config:
+    driver: local
+
+# Example job containers managed by Plan-Z
+# These can be triggered by the scheduler
+
+networks:
+  default:
+    name: planz-network

@@ -1,0 +1,10 @@
+# Example: Health check job
+name: health-check
+schedule: "*/5 * * * *"
+command: curl -sf http://localhost:8080/health || exit 1
+timeout: 30
+tags:
+  - monitoring
+  - health
+notify:
+  on_failure: email

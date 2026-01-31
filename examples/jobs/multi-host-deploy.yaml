@@ -1,0 +1,33 @@
+# Example: Multi-host deployment job
+# Runs the same deployment across different OS hosts
+
+name: multi-host-deploy
+schedule: "30 4 * * 1-5"  # Weekdays at 4:30 AM
+
+# Default Unix command
+command: /opt/deploy/update.sh
+
+# Windows override
+command_windows: C:\Deploy\update.ps1
+
+# This job targets multiple hosts (run with --host flag)
+# planz run multi-host-deploy --host linux-web-01
+# planz run multi-host-deploy --host windows-api-01
+
+timeout: 600
+
+env:
+  DEPLOY_ENV: production
+  NOTIFY_SLACK: "true"
+
+tags:
+  - deploy
+  - multi-host
+  - production
+
+retry_count: 2
+retry_delay: 60
+
+notify:
+  on_failure: slack
+  on_success: slack

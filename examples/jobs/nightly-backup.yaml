@@ -1,0 +1,13 @@
+# Example: Nightly backup job
+name: nightly-backup
+schedule: "0 2 * * *"
+command: /usr/local/bin/backup.sh
+timeout: 3600
+env:
+  BACKUP_TARGET: s3
+  BACKUP_BUCKET: my-backups
+tags:
+  - backup
+  - nightly
+notify:
+  on_failure: slack

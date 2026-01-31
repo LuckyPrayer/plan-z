@@ -1,0 +1,56 @@
+# Example host configurations for Plan-Z
+# Place this file at ~/.planz/hosts.yaml or specify with --hosts-file
+
+hosts:
+  # Local machine (auto-detected)
+  - name: local
+    hostname: localhost
+    connection_type: local
+    platform: auto
+
+  # Linux web server
+  - name: linux-web-01
+    hostname: web01.example.com
+    port: 22
+    username: deploy
+    key_file: ~/.ssh/deploy_key
+    platform: linux
+    connection_type: ssh
+
+  # macOS build server
+  - name: macos-build-01
+    hostname: build01.example.com
+    port: 22
+    username: builder
+    key_file: ~/.ssh/builder_key
+    platform: macos
+    connection_type: ssh
+
+  # Windows server with OpenSSH
+  - name: windows-server-01
+    hostname: win01.example.com
+    port: 22
+    username: Administrator
+    key_file: ~/.ssh/windows_key
+    platform: windows
+    connection_type: ssh
+    shell: powershell  # Use PowerShell as default shell
+
+  # Windows server via native SSH
+  - name: windows-api-01
+    hostname: 192.168.1.100
+    port: 22
+    username: svc_deploy
+    key_file: ~/.ssh/deploy_key
+    platform: windows
+    connection_type: ssh
+    planz_path: C:\Tools\planz\planz.exe
+
+  # Docker host
+  - name: docker-host-01
+    hostname: docker01.example.com
+    port: 22
+    username: docker
+    key_file: ~/.ssh/docker_key
+    platform: linux
+    connection_type: ssh

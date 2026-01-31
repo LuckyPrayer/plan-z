@@ -1,0 +1,26 @@
+# Example: Cross-platform backup job
+# This job runs on Windows, Linux, or macOS with platform-specific commands
+
+name: cross-platform-backup
+schedule: "0 2 * * *"
+
+# Default command (Unix-style)
+command: /usr/local/bin/backup.sh --target s3
+
+# Windows-specific override
+command_windows: C:\Scripts\backup.ps1 -Target S3
+
+# Host to run on (optional - runs locally if not specified)
+host: null
+
+timeout: 3600
+env:
+  BACKUP_BUCKET: my-backups
+  AWS_REGION: us-east-1
+tags:
+  - backup
+  - nightly
+  - cross-platform
+
+notify:
+  on_failure: slack
