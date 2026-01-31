@@ -17,8 +17,10 @@ services:
       - ${DOCKER_GID:-999}  # Match host's docker group GID
     environment:
       - PLANZ_LOG_LEVEL=INFO
-    restart: unless-stopped
-    command: ["planz", "status"]  # Or run specific commands
+    restart: "no"
+    stdin_open: true
+    tty: true
+    command: ["tail", "-f", "/dev/null"]  # Keep container running for interactive use
 
   # Example: Run a job in a separate container
   planz-runner:
