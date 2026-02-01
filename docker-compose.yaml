@@ -1,8 +1,8 @@
-# Docker Compose configuration for Plan-Z
-# Use for local development or running the scheduler as a service
+# Docker Compose configuration for Plan-Z CLI
+# Use for local development or running the scheduler backend as a service
 
 services:
-  # Plan-Z scheduler service
+  # Plan-Z CLI scheduler service
   planz:
     build:
       context: .

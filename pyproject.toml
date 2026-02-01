@@ -3,9 +3,9 @@ requires = ["setuptools>=61.0", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "planz"
+name = "planz-cli"
 version = "0.1.0"
-description = "Plan-Z: A CLI tool for managing cron jobs on local and remote hosts"
+description = "Plan-Z CLI: Backend service for cross-platform distributed job scheduling"
 readme = "readme.md"
 requires-python = ">=3.9"
 license = {text = "MIT"}
@@ -52,9 +52,9 @@ dev = [
 planz = "planz.cli:main"
 
 [project.urls]
-Homepage = "https://github.com/planz/planz"
-Documentation = "https://github.com/planz/planz#readme"
-Repository = "https://github.com/planz/planz"
+Homepage = "https://github.com/LuckyPrayer/plan-z"
+Documentation = "https://github.com/LuckyPrayer/plan-z/tree/main/plan-z%20cli#readme"
+Repository = "https://github.com/LuckyPrayer/plan-z"
 
 [tool.setuptools.packages.find]
 where = ["src"]

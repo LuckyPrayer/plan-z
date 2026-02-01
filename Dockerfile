@@ -1,10 +1,10 @@
-# Plan-Z Docker Image
-# Multi-platform support for running Plan-Z in containers
+# Plan-Z CLI Docker Image
+# Multi-platform support for running Plan-Z CLI backend in containers
 
 FROM python:3.11-slim
 
 LABEL maintainer="Plan-Z Contributors"
-LABEL org.opencontainers.image.description="Cross-platform distributed job scheduler"
+LABEL org.opencontainers.image.description="Plan-Z CLI - Cross-platform distributed job scheduler backend"
 
 # Install system dependencies including Docker CLI
 RUN apt-get update && apt-get install -y --no-install-recommends \

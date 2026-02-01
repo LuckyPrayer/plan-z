@@ -1,6 +1,6 @@
-# Contributing to Plan-Z
+# Contributing to Plan-Z CLI
 
-Thank you for your interest in contributing to Plan-Z! This document provides guidelines and information for contributors.
+Thank you for your interest in contributing to Plan-Z CLI! This document provides guidelines and information for contributors.
 
 ## Development Setup
 
@@ -13,8 +13,8 @@ Thank you for your interest in contributing to Plan-Z! This document provides gu
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/planz/planz.git
-   cd planz
+   git clone https://github.com/LuckyPrayer/plan-z.git
+   cd plan-z/plan-z\ cli
    ```
 
 2. Create a virtual environment:

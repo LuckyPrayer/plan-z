@@ -1,6 +1,6 @@
-# Plan-Z Quick Start Guide
+# Plan-Z CLI Quick Start Guide
 
-This guide helps you get started with Plan-Z quickly.
+This guide helps you get started with Plan-Z CLI quickly.
 
 ## Installation
 

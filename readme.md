@@ -1,6 +1,8 @@
-# Plan-Z – Cross-Platform Distributed Job Scheduler
+# Plan-Z CLI – Cross-Platform Distributed Job Scheduler
 
-A command‑line tool for managing scheduled jobs on **local and remote hosts** across **Windows, Linux, macOS, and Docker** from a single interface. Plan-Z provides structure, visibility, and safety on top of traditional schedulers, without requiring a web UI. A web-based wrapper may be layered on later.
+> **Part of the [Plan-Z Project](https://github.com/LuckyPrayer/plan-z)** – This is the backend CLI component. See also: [Plan-Z Client](../plan-z%20client) (web interface)
+
+A command‑line tool for managing scheduled jobs on **local and remote hosts** across **Windows, Linux, macOS, and Docker** from a single interface. Plan-Z CLI provides structure, visibility, and safety on top of traditional schedulers.
 
 Think of it as:
 
